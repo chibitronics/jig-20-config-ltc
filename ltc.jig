@@ -1,0 +1,5 @@
+[Jig]
+Name=LtC Jig
+Description=Love-to-Code factory test jig
+TestFile=/boot/ltc-jig
+DefaultScenario=smoke-tests

@@ -1,0 +1,8 @@
+[Test]
+ExecStart=/bin/bash -c '(echo program /home/pi/Code/ltc-os/orchard/build/orchard.elf | ncat localhost 4444) | grep "Programming Finished"'
+Name=Program LtC OS
+Name[zh]=程序操作系统
+Description=Program the base LtC operating system
+Description[zh]=编程基本LtC操作系统。
+Requires=swd,build-ltc-os
+Timeout=5

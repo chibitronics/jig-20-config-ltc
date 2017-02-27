@@ -1,0 +1,5 @@
+[Test]
+Name=Checkout LtC OS
+Description=Checkout the latest version of the LtC source
+ExecStart=/bin/bash -c 'git fetch --all; git reset --hard origin/master'
+WorkingDirectory=/home/pi/Code/ltc-os/orchard

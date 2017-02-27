@@ -1,0 +1,6 @@
+[Test]
+Name=Compile LtC OS
+Description=Compile the LtC operating system from source
+ExecStart=make
+Requires=checkout-ltc-os
+WorkingDirectory=/home/pi/Code/ltc-os/orchard

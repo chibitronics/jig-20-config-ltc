@@ -3,4 +3,5 @@ Name=Compile LtC OS
 Description=Compile the LtC operating system from source
 ExecStart=make
 Requires=checkout-ltc-os
+Timeout=120
 WorkingDirectory=/home/pi/Code/ltc-os/orchard

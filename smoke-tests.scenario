@@ -3,6 +3,6 @@ Name=Smoke Tests
 Name[zh]=程序应用程序
 Description=Pull the latest version of LtC, build it, load it, and run some tests.
 Description[zh]=编程最终的LtC示例应用程序。
-Tests=build-ltc-os, load-ltc-os
+Tests=dir, pwd, build-ltc-os, load-ltc-os
 Timeout=200
 Jigs=ltc

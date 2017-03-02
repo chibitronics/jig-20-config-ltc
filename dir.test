@@ -1,5 +1,5 @@
 [Test]
 Name=List directory
 Description=List files in the current directory
-ExecStart=cmd /C dir
-Requires=windows-sample-daemon
+ExecStart=ls -l
+WorkingDirectory=/home/pi/Code/ltc-os/orchard

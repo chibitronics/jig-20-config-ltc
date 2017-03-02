@@ -1,4 +1,5 @@
 [Test]
-Name=List directory
-Description=List files in the current directory
-ExecStart=cmd /C cd
+Name=GetCwd
+Description=Print the current working directory
+ExecStart=pwd
+WorkingDirectory=/home/pi/Code/ltc-os/orchard

@@ -1,4 +1,5 @@
 [Test]
 Name=Checkout LtC OS
 Description=Checkout the latest version of the LtC source
-ExecStart=/home/pi/Code/jig-20-config-ltc/update-code.sh /home/pi/Code/ltc-os/
+ExecStart=/bin/sh -c 'git fetch --all; git reset --hard origin/master'
+WorkingDirectory=/home/pi/Code/ltc-os/

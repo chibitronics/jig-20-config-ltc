@@ -1,6 +1,0 @@
-[Test]
-ExecStart=swdlog
-Name=Log Registers
-Description=Log registers from the chip, to e.g. remember serial numbers
-Requires=swd
-Timeout=2000

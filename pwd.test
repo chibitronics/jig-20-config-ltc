@@ -1,5 +1,0 @@
-[Test]
-Name=GetCwd
-Description=Print the current working directory
-ExecStart=pwd
-WorkingDirectory=/home/pi/Code/ltc-os/orchard

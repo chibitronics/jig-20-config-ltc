@@ -1,6 +1,6 @@
 [Scenario]
 Name=Smoke Tests
 Description=Pull the latest version of LtC, build it, load it, and run some tests.
-Tests=dir, pwd, build-ltc-os, load-ltc-os
+Tests=build-ltc-os, load-ltc-os
 Timeout=200
 Jigs=ltc

@@ -1,5 +1,0 @@
-[Test]
-Name=List directory
-Description=List files in the current directory
-ExecStart=ls -l
-WorkingDirectory=/home/pi/Code/ltc-os/orchard

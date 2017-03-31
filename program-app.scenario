@@ -1,5 +1,0 @@
-[Scenario]
-Name=Program App
-Description=Program the final LtC example application.
-Tests=log-registers,program-os,program-test
-Timeout=200

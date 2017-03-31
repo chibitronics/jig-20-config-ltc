@@ -6,4 +6,5 @@ Name=Run OpenOCD
 Description=Run the OpenOCD debugger in the background.
 Timeout=10
 DaemonReadyText=target halted due to debug-request
+Requires=measure-reset-pulse
 Type=daemon

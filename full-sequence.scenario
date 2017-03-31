@@ -1,0 +1,5 @@
+[Scenario]
+Name=Program EVerything
+Description=Program the final LtC OS, and run all tests
+Tests=program-os-pvt1c,program-test,program-app
+Timeout=200

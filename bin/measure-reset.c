@@ -6,7 +6,53 @@
 #include <sys/time.h>
 #include <poll.h>
 
-#define GPIO 23
+#define GPIO_PULSE 23
+#define GPIO_LEVEL 18
+#define PLUNGER_START_LEVEL 0.060
+#define PLUNGER_IDLE_LEVEL 0.048
+#define PLUNGER_INCREMENT 0.0001
+#define PLUNGER_DELAY_US 20000
+
+static int board_is_reset(void) {
+  int fd;
+  char str[256];
+  int gpio = GPIO_LEVEL;
+  snprintf(str, sizeof(str)-1, "/sys/class/gpio/gpio%d/value", gpio);
+  if ((fd = open(str, O_RDONLY)) < 0) {
+     fprintf(stderr, "Failed, gpio %d not exported.\n", gpio);
+     exit(1);
+  }
+
+  read(fd, str, sizeof(str));
+  close(fd);
+  return (str[0] == '0');
+}
+
+static void press_reset_button(void) {
+	float level;
+	char str[256];
+	int fd;
+	fd = open("/dev/pi-blaster", O_WRONLY);
+	if (fd == -1) {
+		perror("Unable to lower plunger");
+		exit(1);
+	}
+
+	for (level = PLUNGER_START_LEVEL;
+            !board_is_reset();
+            level += PLUNGER_INCREMENT) {
+		usleep(PLUNGER_DELAY_US);
+		//fprintf(stderr, "Setting 12=%f\n", level);
+		snprintf(str, sizeof(str) - 1, "12=%f\n", level);
+		write(fd, str, strlen(str));
+	}
+
+	level = PLUNGER_IDLE_LEVEL;
+	snprintf(str, sizeof(str) - 1, "12=%f\n", level);
+	write(fd, str, strlen(str));
+
+	exit(0);
+}
 
 /* Subtract the `struct timeval' values X and Y,
    storing the result in RESULT.
@@ -97,7 +143,7 @@ int main(int argc, char *argv[])
   char str[256];
   struct pollfd pfd;
   int fd;
-  int gpio = GPIO;
+  int gpio = GPIO_PULSE;
   int min_pulse = 0;
   int max_pulse = 10000;
   char buf[8];
@@ -116,6 +162,10 @@ int main(int argc, char *argv[])
     perror("Unable to export GPIO");
     return 1;
   }
+  if (export_gpio(GPIO_LEVEL)) {
+    perror("Unable to export GPIO_LEVEL");
+    return 1;
+  }
 
   snprintf(str, sizeof(str)-1, "/sys/class/gpio/gpio%d/value", gpio);
   if ((fd = open(str, O_RDONLY)) < 0) {
@@ -128,6 +178,8 @@ int main(int argc, char *argv[])
       min_pulse, max_pulse);
   fflush(stdout);
 
+  if (fork() > 0)
+    press_reset_button();
 
   // Wait for the reset pulse to fall, indicating the board is in reset.
   set_edge(gpio, FALLING);

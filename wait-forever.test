@@ -1,0 +1,5 @@
+[Test]
+Name=Wait Forever
+Description=Wait forever (one day, actually), to allow for debugging a device-under-test
+ExecStart=sleep 86400
+Timeout=86400

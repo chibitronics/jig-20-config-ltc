@@ -1,0 +1,6 @@
+[Scenario]
+Name=Debug LtC
+Description=Run the debugger and leave it running.
+Tests=swd, wait-forever
+# Wait for one full day
+Timeout=86400

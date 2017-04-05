@@ -1,0 +1,6 @@
+[Test]
+ExecStart=/bin/bash -c '(echo kinetis mdm mass_erase | ncat localhost 4444) | grep "erase"'
+Name=Erase all flash
+Description=Issue a mass_erase to start afresh
+Requires=swd
+Timeout=5

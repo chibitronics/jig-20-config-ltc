@@ -1,0 +1,7 @@
+[Test]
+ExecStart=sudo ./measure-reset 300 5000
+ExecStop=sudo killall measure-reset
+Name=Measure reset pulse
+Description=Measure the length of the reset pulse
+Timeout=5
+Requires=pi-blaster

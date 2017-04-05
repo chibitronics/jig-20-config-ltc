@@ -1,0 +1,5 @@
+[Scenario]
+Name=Check LEDs
+Description=Just make sure the LEDs work
+Tests=led-test
+Timeout=10

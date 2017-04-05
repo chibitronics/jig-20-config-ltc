@@ -42,7 +42,7 @@ do
 		yellow_on
 	elif echo "${line}" | grep -iq '^finish'
 	then
-		result=$(echo ${line} | awk '{print $2}')
+		result=$(echo ${line} | awk '{print $3}')
 		if [ ${result} -ge 200 -a ${result} -lt 300 ]
 		then
 			green_on

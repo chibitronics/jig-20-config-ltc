@@ -1,0 +1,6 @@
+[Test]
+ExecStart=./06-rgb-test.sh
+Name=Test RGB LEDs
+Description=Try each color on the RGB LED, and make sure the chain works too.
+Requires=serial-test
+Timeout=10

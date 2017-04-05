@@ -1,6 +1,6 @@
 [Test]
-ExecStart=/bin/bash -c '(echo program $(pwd)/bin/orchard-pvt1c.elf | ncat localhost 4444) | grep "Programming Finished"'
+ExecStart=/bin/bash -c '(echo program $(pwd)/orchard-pvt1c.elf | ncat localhost 4444) | grep "Programming Finished"'
 Name=Program LtC OS
 Description=Program the base LtC operating system
-Requires=swd
+Requires=swd,mass-erase
 Timeout=5

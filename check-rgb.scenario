@@ -1,0 +1,5 @@
+[Scenario]
+Name=Check RGB LED
+Description=Just make sure the RGB LED works
+Tests=rgb-test
+Timeout=10

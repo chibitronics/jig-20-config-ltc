@@ -1,0 +1,6 @@
+[Test]
+ExecStart=./02-upload-program.sh
+Name=Program LtC test
+Description=Program the tester binary program via audio
+Requires=program-os-pvt1c,test-setup
+Timeout=30

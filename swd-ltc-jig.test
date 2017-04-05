@@ -1,0 +1,11 @@
+[Test]
+ExecStart=sudo /opt/openocd/bin/openocd -l /dev/fd/1 -f interface/raspberrypi2-native.cfg -c "transport select swd" -c "reset_config srst_only srst_push_pull" -f target/kx.cfg -c "init" -c "kinetis mdm halt" -c "kinetis mdm mass_erase"
+#-c "kx.cpu configure -rtos ChibiOS" 
+ExecStop=sudo /usr/bin/killall openocd
+Name=Run OpenOCD
+Description=Run the OpenOCD debugger in the background.
+Timeout=1000
+DaemonReadyText=target halted due to debug-request
+#Requires=measure-reset-pulse
+Provides=swd
+Type=daemon

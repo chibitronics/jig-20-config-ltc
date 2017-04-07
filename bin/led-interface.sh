@@ -25,6 +25,10 @@ red_on() {
 	gpio -g write ${red_led} 1
 }
 
+red_also_on() {
+	gpio -g write ${red_led} 1
+}
+
 gpio_setup() {
 	gpio -g mode ${green_led} out
 	gpio -g mode ${yellow_led} out
@@ -40,6 +44,10 @@ do
 	if echo "${line}" | grep -i '^start'
 	then
 		yellow_on
+	if echo "${line}" | grep -i '^fail'
+	then
+		red_also_on
+	fi
 	elif echo "${line}" | grep -iq '^finish'
 	then
 		result=$(echo ${line} | awk '{print $3}')

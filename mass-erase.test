@@ -1,6 +1,5 @@
 [Test]
-ExecStart=/bin/bash -c '(echo kinetis mdm mass_erase | ncat localhost 4444) | grep "erase"'
-Name=Erase all flash
-Description=Issue a mass_erase to start afresh
-Requires=swd
-Timeout=5
+ExecStart=sudo /opt/openocd/bin/openocd -l /dev/fd/1 -f interface/raspberrypi2-native.cfg -c "transport select swd" -f target/kx.cfg -c "reset_config srst_only srst_open_drain" -c "init" -c "kinetis mdm mass_erase" -c "exit"
+Name=Mass Erase
+Description=Run the OpenOCD debugger and do a Mass Erase
+Timeout=10

@@ -2,4 +2,4 @@
 Name=Front panel LEDs
 Description=Shows test status on the LEDs
 Format=text
-ExecStart=/home/pi/Code/jig-20-config-ltc/bin/led-interface.sh
+ExecStart=/usr/bin/stdbuf -i0 -o0 -e0 /home/pi/Code/jig-20-config-ltc/bin/led-interface.sh

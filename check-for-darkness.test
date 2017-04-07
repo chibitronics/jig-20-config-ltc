@@ -1,0 +1,6 @@
+[Test]
+ExecStart=./check-for-darkness.sh
+Name=Check for darkness
+Description=Ensure there are no sources of PWM noise, such as overhead lights
+Requires=program-os-pvt1c,test-setup
+Timeout=30

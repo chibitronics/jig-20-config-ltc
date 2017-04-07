@@ -2,5 +2,5 @@
 ExecStart=./07-status-leds.sh
 Name=Test status LEDs
 Description=Make sure the status LEDs are wired up
-Requires=serial-test
+Requires=test-setup,serial-test
 Timeout=5

@@ -1,27 +1,46 @@
 #!/bin/sh -e
 
+max=3
+success=0
+audiofile="$1"
+
 source ./00-test-lib.sh
 
-echo "Audio test:"
-echo "    Download mode"
-enter_programming_mode
-
-if get_value ${status_green} || ! get_value ${status_red}
+if [ -z "${audiofile}" ]
 then
-	if get_value ${status_green}
+	echo "Usage: $0 [audiofile].wav" 1>&2
+	exit 1
+fi
+
+echo "Audio test:"
+for try in $(seq 1 ${max})
+do
+	echo "    Download mode (try ${try})"
+	enter_programming_mode
+
+	if get_value ${status_green} || ! get_value ${status_red}
 	then
-		echo "        status_green is on when it should be off"
+		if get_value ${status_green}
+		then
+			echo "        status_green is on when it should be off"
+		fi
+		if ! get_value ${status_red}
+		then
+			echo "        status_red is off when it should be on"
+		fi
+	else
+		success=1
+		break
 	fi
-	if ! get_value ${status_red}
-	then
-		echo "        status_red is off when it should be on"
-	fi
-	echo "        Unable to enter download mode"
+done
+if [ ${success} -eq 0 ]
+then
+	echo "        Unable to enter download mode after ${try} tries"
 	exit 1
 fi
 
 echo "    Programming"
-aplay -q "${test_program}"
+aplay -q "${audiofile}"
 
 # Wait for status_green, which gets turned on
 # as soon as the program starts running.

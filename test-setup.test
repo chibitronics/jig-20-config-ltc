@@ -2,5 +2,4 @@
 ExecStart=./01-test-setup.sh
 Name=Setup GPIOs for testing
 Description=Set up the test jig GPIOs and such for testing
-Requires=program-os-pvt1c
 Timeout=15

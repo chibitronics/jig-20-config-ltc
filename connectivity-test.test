@@ -2,5 +2,5 @@
 ExecStart=./04-connectivity-test.sh
 Name=Test BGA connectivity
 Description=Test each BGA ball to make sure they're all connected
-Requires=serial-test
+Requires=test-setup,serial-test
 Timeout=10

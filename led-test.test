@@ -2,5 +2,5 @@
 ExecStart=./05-led-test.sh
 Name=Test LED connections
 Description=Turn on each LED and measure the PWM, to make sure they're connected
-Requires=serial-test
+Requires=test-setup,serial-test
 Timeout=15

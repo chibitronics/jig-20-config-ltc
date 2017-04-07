@@ -3,3 +3,4 @@ Name=Check RGB LED
 Description=Just make sure the RGB LED works
 Tests=rgb-test
 Timeout=10
+Assume=serial-test

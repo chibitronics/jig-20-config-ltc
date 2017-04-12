@@ -1,6 +1,5 @@
 [Test]
 ExecStart=sudo ./pi-blaster/pi-blaster -p -g 12 -D
-ExecStop=sudo killall pi-blaster
 Name=Run Pi-Blaster
 Description=Run Pi-Blaster, which enables arbitrary PWMs
 Timeout=100

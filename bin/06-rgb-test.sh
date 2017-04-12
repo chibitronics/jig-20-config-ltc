@@ -10,7 +10,8 @@ echo w > ${uart}
 # Wait for the board to enter RGB test mode
 grep -q "RGB LED test" ${uart}
 
-for color in red green blue Red_External Green_External Blue_External
+error_msg=""
+for color in r g b REx GEx BEx
 do
 	# Send the color name to the UART, selecting it.
 	echo ${color} | cut -c 1 > ${uart}
@@ -18,11 +19,18 @@ do
 	if ! pulse_count rgb 128
 	then
 		echo "        Pulse out of range: ${range_val}"
+		error_msg="${error_msg} ${color}:${range_diff}"
 		error_count=$((${error_count} + 1))
-	else
-		echo "        Pulse is in range: ${range_val}"
+#	else
+#		echo "        Pulse is in range: ${range_val}"
 	fi
 done
 
-#echo q > ${uart}
-exit ${error_count}
+if ! [ -z "${error_msg}" ]
+then
+	echo "RGB: ${error_msg}"
+	exit ${error_count}
+fi
+
+echo "RGB LED Okay"
+exit 0

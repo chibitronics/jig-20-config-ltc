@@ -16,6 +16,7 @@ echo -n 'l' > ${uart}
 
 grep -q "PWM LED test" ${uart}
 
+error_msg=""
 for pin in $(seq 0 5)
 do
 	echo "    Pin A${pin}"
@@ -23,11 +24,19 @@ do
 	if ! pulse_count ${pin} 256
 	then
 		echo "        Pulse out of range: ${range_val}"
+		error_msg="${error_msg}  ${pin}:${range_diff}"
 		error_count=$((${error_count} + 1))
-	else
-		echo "        Pulse is in range: ${range_val}"
+#	else
+#		echo "        Pulse is in range: ${range_val}"
 	fi
 done
 echo -n q > ${uart}
 
-exit ${error_count}
+if ! [ -z "${error_msg}" ]
+then
+	echo "LED: ${error_msg}"
+	exit ${error_count}
+fi
+
+echo "All LEDs okay"
+exit 0

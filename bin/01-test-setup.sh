@@ -14,7 +14,6 @@ stty -F ${uart} ${baud} -icrnl -imaxbel -opost -onlcr -isig -icanon -echo
 # Start out by setting all pins low.
 # The bootloader does this, so we're not
 # really fighting it here.
-echo "Setting up pins:"
 set_output 0
 set_output 1
 set_output 2
@@ -32,9 +31,4 @@ set_input ${status_red}
 set_input ${reset_pulse}
 set_input ${reset_level}
 
-setup_light_sensor
-if ! pulse_count room 16
-then
-	echo "Room too bright.  Shield test jig.  ${range_val}"
-	exit 1
-fi
+echo "Test jig configured"

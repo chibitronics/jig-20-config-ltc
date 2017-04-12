@@ -17,6 +17,7 @@ do
 	if timeout 3 grep -q "serial test" ${uart}
 	then
 		echo q > ${uart}
+		echo "Serial OK"
 		exit 0
 	fi
 	echo "Timed out, trying again..."

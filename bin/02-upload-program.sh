@@ -57,3 +57,5 @@ then
 	echo "        Program never loaded"
 	exit 1
 fi
+
+echo "Program uploaded"

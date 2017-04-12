@@ -2,5 +2,4 @@
 Name=Program Everything
 Description=Program the final LtC OS, and run all tests.
 Tests=program-os-pvt1c,upload-program,finish-ltc-tests,program-app,teardown-tests
-ExecStart=killall grep
 Timeout=200

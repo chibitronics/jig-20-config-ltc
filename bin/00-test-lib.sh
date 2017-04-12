@@ -159,20 +159,20 @@ wait_for_red_off() {
 }
 
 pulse_count() {
-	center=$(pulse_range_pin "$1")
-	range="$2"
-	before=$(grep 'pinctrl-bcm2835   2 ' /proc/interrupts)
+	local center=$(pulse_range_pin "$1")
+	local range="$2"
+	local before=$(grep 'pinctrl-bcm2835   2 ' /proc/interrupts)
 	sleep 1
-	after=$(grep 'pinctrl-bcm2835   2 ' /proc/interrupts | awk '{print $2}')
-	before=$(echo "${before}" | awk '{print $2}')
+	local after=$(grep 'pinctrl-bcm2835   2 ' /proc/interrupts | awk '{print $2}')
+	local before=$(echo "${before}" | awk '{print $2}')
 
-	difference=$((${after}-${before}))
+	range_diff=$((${after}-${before}))
 	ub=$((${center} + ${range}))
 	lb=$((${center} - ${range}))
 
-	range_val="${lb} <= ${difference} <= ${ub} [${before} ${after}]"
+	range_val="${lb} <= ${range_diff} <= ${ub} [${before} ${after}]"
 
-	[ ${difference} -lt ${ub} ] && [ ${difference} -gt ${lb} ]
+	[ ${range_diff} -lt ${ub} ] && [ ${range_diff} -gt ${lb} ]
 }
 
 #move_plunger_up() {

@@ -44,10 +44,9 @@ do
 	if echo "${line}" | grep -i '^start'
 	then
 		yellow_on
-	if echo "${line}" | grep -i '^fail'
+	elif echo "${line}" | grep -i '^fail'
 	then
 		red_also_on
-	fi
 	elif echo "${line}" | grep -iq '^finish'
 	then
 		result=$(echo ${line} | awk '{print $3}')
@@ -57,7 +56,7 @@ do
 		else
 			red_on
 		fi
-	elif echo "${line}" | grep -iq '^shutdown'
+	elif echo "${line}" | grep -iq '^exit'
 	then
 		exit 0
 	fi

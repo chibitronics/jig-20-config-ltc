@@ -91,16 +91,18 @@ int main(int argc, char *argv[])
   
      lseek(fd, 0, SEEK_SET);    /* consume interrupt */
      read(fd, buf, sizeof buf);
-     usleep(5000);
+     //fprintf(stderr, "Delay...");
+     usleep(1000);
 
      /* Read value after brief debounce */
      lseek(fd, 0, SEEK_SET);
+     //fprintf(stderr, "Re-read...");
      read(fd, buf, sizeof buf);
      if (buf[0] != '0')
       continue;
      printf("START\n");
      fflush(stdout);
-     usleep(5000);
+     usleep(1000);
    }
 
    exit(0);

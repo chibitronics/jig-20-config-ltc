@@ -10,7 +10,7 @@ echo w > ${uart}
 # Wait for the board to enter RGB test mode
 grep -q "RGB LED test" ${uart}
 
-for color in Red Green Blue
+for color in red green blue Red_External Green_External Blue_External
 do
 	# Send the color name to the UART, selecting it.
 	echo ${color} | cut -c 1 > ${uart}

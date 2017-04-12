@@ -6,7 +6,7 @@
 #include <sys/time.h>
 #include <poll.h>
 
-#define GPIO 4
+#define GPIO 26
 
 static int write_file(const char *filename, const char *string) {
 	int fd = open(filename, O_WRONLY);
@@ -33,7 +33,7 @@ static int export_gpio(int gpio) {
 		return -1;
 
 	snprintf(filename, sizeof(filename)-1, "/sys/class/gpio/gpio%d/edge", gpio);
-	snprintf(string, sizeof(string)-1, "both");
+	snprintf(string, sizeof(string)-1, "falling");
 	if (write_file(filename, string))
 		return -1;
 
@@ -58,6 +58,13 @@ int main(int argc, char *argv[])
 	   gpio = atoi(argv[1]);
    else
 	   gpio = GPIO;
+
+   /* Quick hack to enable pullup */
+   {
+	   char tmp[256];
+	   snprintf(tmp, sizeof(tmp)-1, "gpio -g mode %d up", gpio);
+	   system(tmp);
+   }
 
    if (export_gpio(gpio)) {
 	   perror("Unable to export GPIO");
@@ -84,8 +91,16 @@ int main(int argc, char *argv[])
   
      lseek(fd, 0, SEEK_SET);    /* consume interrupt */
      read(fd, buf, sizeof buf);
+     usleep(5000);
+
+     /* Read value after brief debounce */
+     lseek(fd, 0, SEEK_SET);
+     read(fd, buf, sizeof buf);
+     if (buf[0] != '0')
+      continue;
      printf("START\n");
      fflush(stdout);
+     usleep(5000);
    }
 
    exit(0);

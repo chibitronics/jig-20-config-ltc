@@ -1,0 +1,6 @@
+[Test]
+ExecStart=./program-os-pvt1e.sh
+Name=Program LtC OS
+Description=Program the base LtC operating system
+Requires=swd
+Timeout=30

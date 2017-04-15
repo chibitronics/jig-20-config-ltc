@@ -9,6 +9,11 @@ tmppath=/tmp/
 main() {
 	local url="$1"
 	local size=${initial_pixel_size}
+	if [ -z "${url}" ]
+	then
+		echo "Usage: $0 [url-to-print]"
+		exit 1
+	fi
 	while true
 	do
 		qrencode \
@@ -47,7 +52,10 @@ main() {
 		--model QL-570 \
 		--label-size 62x29 \
 		"${tmppath}fl-${tmpfile}" \
-		> output.bin
+		> "${tmppath}brother-code.bin"
+
+	sudo dd if="${tmppath}brother-code.bin" of=/dev/usb/lp0
 }
 
-main 'https://chibitronics.com/love-to-code-signup/'
+read url
+main "$url"

@@ -1,7 +1,7 @@
 [Logger]
 Name=File Logger
 Description=Write log messages out to a file
-ExecStart=cargo run -- file-log.json
+ExecStart=/home/pi/Code/jig-20-file-logger/target/debug/jig-20-file-logger /disk/ltc-log.json
 Format=json
 WorkingDirectory=../jig-20-file-logger
-Jigs=windows
+Jigs=ltc

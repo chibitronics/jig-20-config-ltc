@@ -2,5 +2,5 @@
 Name=LtC Jig
 Description=Love-to-Code factory test jig
 TestFile=/boot/ltc-jig
-DefaultWorkingDirectory=/home/pi/Code/jig-20-config-ltc/bin
+DefaultWorkingDirectory=/disk/jig-20-config-ltc/bin
 DefaultScenario=full-sequence

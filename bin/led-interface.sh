@@ -41,10 +41,10 @@ gpio_setup
 echo "HELLO bash-ltc-jig 1.0"
 while read line
 do
-	if echo "${line}" | grep -i '^start'
+	if echo "${line}" | grep -iq '^start'
 	then
 		yellow_on
-	elif echo "${line}" | grep -i '^fail'
+	elif echo "${line}" | grep -iq '^fail'
 	then
 		red_also_on
 	elif echo "${line}" | grep -iq '^finish'

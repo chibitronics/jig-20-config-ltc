@@ -1,6 +1,6 @@
 [Scenario]
 Name=Program Everything
 Description=Program the final LtC OS, and run all tests.
-Tests=program-os-pvt1e,upload-program,finish-ltc-tests,program-app,teardown-tests
+Tests=program-os-pvt1e,upload-test-program,finish-ltc-tests,upload-shipping-program,teardown-tests
 Timeout=200
 ExecStopSuccess=./bitmark-final-test.sh

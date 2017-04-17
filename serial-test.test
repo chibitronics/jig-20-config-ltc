@@ -2,5 +2,5 @@
 ExecStart=./03-serial-test.sh
 Name=Test serial connection
 Description=Send a string out the serial port and wait for it to come back
-Requires=upload-program
+Requires=upload-test-program
 Timeout=5

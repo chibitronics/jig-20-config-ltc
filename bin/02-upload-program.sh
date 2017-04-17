@@ -42,6 +42,7 @@ fi
 echo "    Programming"
 aplay -q "${audiofile}"
 aplay -q "${audiofile}"
+aplay -q "${audiofile}"
 
 # Wait for status_green, which gets turned on
 # as soon as the program starts running.

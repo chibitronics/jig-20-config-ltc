@@ -114,7 +114,7 @@ enter_programming_mode() {
 	set_input ${reset_pulse}
 	set_output ${reset_level}
 	set_low ${reset_level}
-	sleep 1.5
+	sleep 1.0
 	set_input ${reset_level}
 }
 

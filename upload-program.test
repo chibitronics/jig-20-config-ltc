@@ -1,5 +1,5 @@
 [Test]
-ExecStart=./02-upload-program.sh ltctest.wav
+ExecStart=./02-upload-program.sh larson.wav
 Name=Program LtC test
 Description=Program the tester binary program via audio
 Requires=program-os-pvt1e,test-setup,check-for-darkness

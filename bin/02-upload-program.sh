@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 max=3
+max_uploads=5
 success=0
 audiofile="$1"
 
@@ -39,24 +40,27 @@ then
 	exit 1
 fi
 
-echo "    Programming"
-aplay -q "${audiofile}"
-aplay -q "${audiofile}"
-aplay -q "${audiofile}"
 
-# Wait for status_green, which gets turned on
-# as soon as the program starts running.
-if ! get_value ${status_green} || get_value ${status_red}
+echo "    Programming"
+success=0
+echo "Uploading:"
+for try in $(seq 1 ${max_uploads})
+do
+	aplay -q "${audiofile}"
+
+	# Wait for status_green, which gets turned on
+	# as soon as the program starts running.
+	if ! get_value ${status_green} || get_value ${status_red}
+	then
+		echo "Upload failure ${try}/${max_uploads}"
+	else
+		success=1
+		break
+	fi
+done
+if [ ${success} -eq 0 ]
 then
-	if ! get_value ${status_green}
-	then
-		echo "        status_green is off when it should be on"
-	fi
-	if get_value ${status_red}
-	then
-		echo "        status_red is on when it should be off"
-	fi
-	echo "No test program"
+	echo "        Unable to upload"
 	exit 1
 fi
 

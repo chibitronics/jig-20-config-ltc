@@ -6,7 +6,7 @@ reset_pulse=34
 reset_level=35
 servo_pwm=36
 light_sensor=37
-all_pins="0 1 2 3 4 5 ${status_green} ${status_red} ${reset_pulse} ${reset_level}"
+all_pins="0 1 2 3 4 5 ${status_green} ${status_red} ${reset_level}"
 test_program=ltctest.wav
 #uart=/dev/ttyAMA0
 uart=/dev/ttyUSB0
@@ -111,7 +111,7 @@ get_value() {
 }
 
 enter_programming_mode() {
-	set_input ${reset_pulse}
+#	set_input ${reset_pulse}
 	set_output ${reset_level}
 	set_low ${reset_level}
 	sleep 1.0
@@ -119,7 +119,7 @@ enter_programming_mode() {
 }
 
 reset_board() {
-	set_input ${reset_pulse}
+#	set_input ${reset_pulse}
 	set_output ${reset_level}
 	set_low ${reset_level}
 	sleep .1

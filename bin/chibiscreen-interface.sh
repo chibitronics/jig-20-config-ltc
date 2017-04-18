@@ -15,8 +15,8 @@ do
 	elif echo "${line}" | grep -iq '^hello'
 	then
 		echo '#SYN' > ${uart}
-		echo -n "Jig: " > ${uart}
 		echo "${line}" | awk '{ sub(/([^ ]+ +){1}/,"") }1' > ${uart}
+		echo "Ready to test" > ${uart}
 	elif echo "${line}" | grep -iq '^fail'
 	then
 		# awk command from http://stackoverflow.com/questions/2626274/print-all-but-the-first-three-columns

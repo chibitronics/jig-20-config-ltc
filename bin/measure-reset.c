@@ -9,6 +9,7 @@
 #define GPIO_PULSE 23
 #define GPIO_LEVEL 18
 #define PLUNGER_START_LEVEL 0.060
+#define PLUNGER_MAX_LEVEL 0.070
 #define PLUNGER_IDLE_LEVEL 0.048
 #define PLUNGER_INCREMENT 0.0001
 #define PLUNGER_DELAY_US 20000
@@ -41,6 +42,10 @@ static void press_reset_button(void) {
 	for (level = PLUNGER_START_LEVEL;
             !board_is_reset();
             level += PLUNGER_INCREMENT) {
+		if (level >= PLUNGER_MAX_LEVEL) {
+			fprintf(stderr, "No pulse\n");
+			break;
+		}
 		usleep(PLUNGER_DELAY_US);
 		//fprintf(stderr, "Setting 12=%f\n", level);
 		snprintf(str, sizeof(str) - 1, "12=%f\n", level);

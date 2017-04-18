@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 max=3
-max_uploads=5
+max_uploads=2
 success=0
 audiofile="$1"
 

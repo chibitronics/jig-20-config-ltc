@@ -4,6 +4,7 @@ for i in $(seq 1 5)
 do
 	echo "Programming OS (try ${i}/${max})"
 	echo "reset" | ncat localhost 4444 > /dev/null
+	echo "kinetis fcf_source write" | ncat localhost 4444 > /dev/null
 	echo "halt" | ncat localhost 4444 > /dev/null
 	if echo program $(pwd)/orchard-pvt1e.elf | ncat localhost 4444 | grep -q "Programming Finished" 2> /dev/null
 	then

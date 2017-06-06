@@ -6,7 +6,7 @@ do
 	echo "Programming try ${i}/${max}..."
 	echo "reset" | ncat localhost 4444 > /dev/null
 	echo "halt" | ncat localhost 4444 > /dev/null
-	if echo program $(pwd)/larson.elf | ncat localhost 4444 | grep -q "Programming Finished"
+	if echo program $(pwd)/preload.elf | ncat localhost 4444 | grep -q "Programming Finished"
 	then
 		echo "Programmed successfully"
 		exit 0

@@ -1,61 +1,21 @@
 #!/bin/sh
 
-width_max=696
-height_max=271
-initial_pixel_size=10
-tmpfile=file.png
 tmppath=/tmp/
+inpath=/disk/jig-20-config-ltc/bm
+outpath=/disk/jig-20-config-ltc/coupons
 
 main() {
-	local url="$1"
-	local size=${initial_pixel_size}
-	if [ -z "${url}" ]
-	then
-		echo "Usage: $0 [url-to-print]"
-		exit 1
-	fi
-	while true
-	do
-		qrencode \
-			-s ${size} \
-			-o "${tmppath}qr-${tmpfile}" \
-			"${url}"
-
-		output_size=$(gm identify "${tmppath}qr-${tmpfile}" | awk '{print $3}' | cut -d+ -f1)
-		width=$(echo ${output_size} | cut -dx -f1)
-		height=$(echo ${output_size} | cut -dx -f2)
-
-		if [ ${width} -le ${width_max} ] && [ ${height} -le ${height_max} ]
-		then
-			break
-		fi
-		size=$((${size}-1))
-	done
-	echo "Final pixel size: ${size}  Image size: ${output_size}"
-
-	if [ ${width_max} -le ${height_max} ]
-	then
-		gm convert "${tmppath}qr-${tmpfile}" -extent ${width_max}x "${tmppath}gm-${tmpfile}"
-	else
-		gm convert "${tmppath}qr-${tmpfile}" -extent x${height_max} "${tmppath}gm-${tmpfile}"
-	fi
-	gm convert \
-		"${tmppath}gm-${tmpfile}" \
-		-gravity West \
-		-extent "${width_max}x${height_max}" \
-		-pointsize 56 \
-		-draw "text ${width},-40 \"Bitmark\"" \
-		-draw "text ${width},40 \"serial number\"" \
-		"${tmppath}fl-${tmpfile}"
-
+	mkdir -p "${outpath}"
+	srcfile=$(ls -1 ${inpath} | head -1)
+	mv "${inpath}/${srcfile}" "${tmppath}/${srcfile}"
 	brother_ql_create \
 		--model QL-570 \
-		--label-size 62x29 \
-		"${tmppath}fl-${tmpfile}" \
+		--label-size 29 \
+		"${tmppath}/${srcfile}" \
 		> "${tmppath}brother-code.bin"
+	mv "${tmppath}/${srcfile}" "${outpath}/${srcfile}"
 
 	sudo dd if="${tmppath}brother-code.bin" of=/dev/usb/lp0
 }
 
-read url
-main "$url"
+main

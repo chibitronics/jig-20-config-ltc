@@ -51,7 +51,11 @@ pulse_range_pin() {
 
 		# Again, we sample both edges
 		4|5) echo 662 ;;
-		rgb) echo 812 ;;
+
+		# The RGB pin comes in two varieties, one that's 860, and
+		# a newer version that's 3800 Hz
+		rgb) echo 860,3800 ;;
+
 		room) echo 0 ;;
 		*) echo "???" ;;
 	esac
@@ -159,20 +163,36 @@ wait_for_red_off() {
 }
 
 pulse_count() {
-	local center=$(pulse_range_pin "$1")
+	local centers=$(pulse_range_pin "$1")
 	local range="$2"
+	# To take into account latency from serial traffic, delay 250 ms.
+	sleep .25
 	local before=$(grep 'pinctrl-bcm2835   2 ' /proc/interrupts)
-	sleep 1
-	local after=$(grep 'pinctrl-bcm2835   2 ' /proc/interrupts | awk '{print $2}')
-	local before=$(echo "${before}" | awk '{print $2}')
+	local before=$(grep 'pinctrl-bcm2835   2 ' /proc/interrupts)
+	sleep .75
+	# Our pulse ranges are specified in 1000 ms increments, so convert it
+	# by 4/3 to get 750 ms increments.
+	local after=$(($(grep 'pinctrl-bcm2835   2 ' /proc/interrupts | awk '{print $2}') * 4 / 3))
+	local before=$(($(echo "${before}" | awk '{print $2}') * 4 / 3))
 
-	range_diff=$((${after}-${before}))
-	ub=$((${center} + ${range}))
-	lb=$((${center} - ${range}))
+	# Allow multiple "centers".  This is because the RGB LED comes in two
+	# variants: one that has a center of 860 Hz, and one that's 3800 Hz.
+	for center in $(echo -n ${centers} | tr ',' ' ')
+	do
+		range_diff=$((${after}-${before}))
+		ub=$((${center} + ${range}))
+		lb=$((${center} - ${range}))
 
-	range_val="${lb} <= ${range_diff} <= ${ub} [${before} ${after}]"
+		# Useful for debugging
+		#range_val="${lb} <= ${range_diff} <= ${ub} [${before} ${after}]"
+		#echo ${range_val}
 
-	[ ${range_diff} -lt ${ub} ] && [ ${range_diff} -gt ${lb} ]
+		if [ ${range_diff} -lt ${ub} ] && [ ${range_diff} -gt ${lb} ]
+		then
+			return 0
+		fi
+	done
+	return 1
 }
 
 #move_plunger_up() {

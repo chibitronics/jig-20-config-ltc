@@ -1,5 +1,5 @@
 [Test]
-ExecStart=./02-upload-program.sh larson.wav
+ExecStart=./02-upload-program.sh preload.wav
 Name=Program Final App
 Description=Program the final, shipping application (Larson)
 Requires=finish-ltc-tests

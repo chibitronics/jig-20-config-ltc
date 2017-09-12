@@ -1,2 +1,6 @@
 #!/bin/sh
-./bitmark-get-key.sh | ./bitmark-print-code.sh
+if [ ! -e /dev/usb/lp0 ]
+then
+	exit
+fi
+./bitmark-print-code.sh

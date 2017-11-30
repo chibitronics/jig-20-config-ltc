@@ -8,55 +8,77 @@
 
 #define GPIO_PULSE 23
 #define GPIO_LEVEL 18
-#define PLUNGER_START_LEVEL 0.060
+#define PLUNGER_START_LEVEL 0.053
 #define PLUNGER_MAX_LEVEL 0.070
 #define PLUNGER_IDLE_LEVEL 0.048
 #define PLUNGER_INCREMENT 0.0001
 #define PLUNGER_DELAY_US 20000
 
 static int board_is_reset(void) {
-  int fd;
-  char str[256];
-  int gpio = GPIO_LEVEL;
-  snprintf(str, sizeof(str)-1, "/sys/class/gpio/gpio%d/value", gpio);
-  if ((fd = open(str, O_RDONLY)) < 0) {
-     fprintf(stderr, "Failed, gpio %d not exported.\n", gpio);
-     exit(1);
-  }
+    int fd;
+    char str[256];
+    int gpio = GPIO_LEVEL;
+    snprintf(str, sizeof(str)-1, "/sys/class/gpio/gpio%d/value", gpio);
+    if ((fd = open(str, O_RDONLY)) < 0) {
+       fprintf(stderr, "Failed, gpio %d not exported.\n", gpio);
+       exit(1);
+    }
 
-  read(fd, str, sizeof(str));
-  close(fd);
-  return (str[0] == '0');
+    read(fd, str, sizeof(str));
+    close(fd);
+    return (str[0] == '0');
 }
 
 static void press_reset_button(void) {
-	float level;
-	char str[256];
-	int fd;
-	fd = open("/dev/pi-blaster", O_WRONLY);
-	if (fd == -1) {
-		perror("Unable to lower plunger");
-		exit(1);
-	}
+    float level;
+    char str[256];
+    int fd;
+    fd = open("/dev/pi-blaster", O_WRONLY);
+    if (fd == -1) {
+        perror("Unable to lower plunger");
+        exit(1);
+    }
 
-	for (level = PLUNGER_START_LEVEL;
+    // Ensure plunger is at idle level
+    level = PLUNGER_IDLE_LEVEL;
+    snprintf(str, sizeof(str) - 1, "12=%f\n", level);
+    write(fd, str, strlen(str));
+
+    // Ensure the board isn't in reset to start with
+    if (board_is_reset()) {
+        fprintf(stderr, "Board not coming out of reset\n");
+        level = PLUNGER_IDLE_LEVEL;
+        snprintf(str, sizeof(str) - 1, "12=%f\n", level);
+        write(fd, str, strlen(str));
+        exit(1);
+    }
+
+    // Move the plunger down, looking for the reset button.
+    for (level = PLUNGER_START_LEVEL;
             !board_is_reset();
             level += PLUNGER_INCREMENT) {
-		if (level >= PLUNGER_MAX_LEVEL) {
-			fprintf(stderr, "No pulse\n");
-			break;
-		}
-		usleep(PLUNGER_DELAY_US);
-		//fprintf(stderr, "Setting 12=%f\n", level);
-		snprintf(str, sizeof(str) - 1, "12=%f\n", level);
-		write(fd, str, strlen(str));
-	}
+        if (level >= PLUNGER_MAX_LEVEL) {
+            fprintf(stderr, "No pulse\n");
+            break;
+        }
+        usleep(PLUNGER_DELAY_US);
+        //fprintf(stderr, "Setting 12=%f\n", level);
+        snprintf(str, sizeof(str) - 1, "12=%f\n", level);
+        write(fd, str, strlen(str));
+    }
 
-	level = PLUNGER_IDLE_LEVEL;
-	snprintf(str, sizeof(str) - 1, "12=%f\n", level);
-	write(fd, str, strlen(str));
+    int did_reset = board_is_reset();
 
-	exit(0);
+    // Return the plunger to the top
+    level = PLUNGER_IDLE_LEVEL;
+    snprintf(str, sizeof(str) - 1, "12=%f\n", level);
+    write(fd, str, strlen(str));
+
+    if (!did_reset)
+        exit(1);
+
+    // Call _exit() so that the parent won't quit.
+    _exit(0);
 }
 
 /* Subtract the `struct timeval' values X and Y,

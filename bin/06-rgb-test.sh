@@ -18,7 +18,7 @@ do
 	color_abbr=$(echo ${color} | cut -c 1)
 	echo ${color_abbr} > ${uart}
 	echo "    ${color}"
-	if ! pulse_count rgb 128
+	if ! pulse_count rgb
 	then
 		error_msg="${error_msg} ${color}:${range_diff}"
 		error_pins="${error_pins} ${color_abbr}"

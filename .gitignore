@@ -1,4 +1,2 @@
 *.swp
 *.swo
-/bin/gpiopoll
-/bin/measure-reset

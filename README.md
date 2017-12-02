@@ -8,19 +8,9 @@ to be used with Exclave (nee. Jig-20).
 Usage
 -----
 
-You must build some ancillary binaries first.  There is a Makefile that
-will do this for you:
-
- make
-
-If you're cross-compiling, specify the toolchain prefix in the CROSS\_COMPILE
-variable:
-
- make CROSS\_COMPILE=arm-none-gnueabi-
-
 To run, specify this directory by passing "-c" to exclave.  For example:
 
- exclave -c /mnt/disk/jig-20-config-ltc
+    exclave -c /mnt/disk/jig-20-config-ltc
 
 Exclave via systemd
 -------------------
@@ -38,3 +28,16 @@ You can set up a systemd service to run exclave.  It might look like:
      
     [Install]
     WantedBy=getty.target
+
+Recompiling
+-----------
+
+The repo ships with precompiled binaries, but includes a Makefile to
+rebuild them for you:
+
+    make
+
+If you're cross-compiling, specify the toolchain prefix in the CROSS\_COMPILE
+variable:
+
+    make CROSS\_COMPILE=arm-linux-gnueabihf-

@@ -181,11 +181,11 @@ pulse_count() {
 	do
 		range_diff=$((${after}-${before}))
 
-		# If there's no range, set it to +/-15%.  This is because the RC
+		# If there's no range, set it to +/-30%.  This is because the RC
 		# oscillators used in the RGB LED are pretty bad.
 		if [ -z $range ]
 		then
-			range=$((${center} * 15 / 100))
+			range=$((${center} * 30 / 100))
 		fi
 		ub=$((${center} + ${range}))
 		lb=$((${center} - ${range}))

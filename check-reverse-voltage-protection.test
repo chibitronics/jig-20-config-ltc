@@ -1,0 +1,6 @@
+[Test]
+ExecStart=./test-reverse-voltage-protection.sh
+Name=Check reverse voltage protection
+Description=Verify that the reverse voltage protection FET is connected to GND
+Requires=program-os-pvt1e,test-setup
+Timeout=1
